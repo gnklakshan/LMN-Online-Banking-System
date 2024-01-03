@@ -7,13 +7,13 @@
  class Bank{
    protected:
    string username;
-   string password;
+   string password = "Password@1234";
 
-   public:
-   Bank(string username,string password) {
-      this->username =(username);
-      this->password=(password);
-   }
+   // public:
+   // Bank(string username,string password) {
+   //    this->username =(username);
+   //    this->password=(password);
+   // }
  };
 
 //Customer class
@@ -36,7 +36,6 @@ class Employee : private Bank
 };
 
 
-
 //Administrator class
 class Administrator :private Bank 
 {
@@ -47,9 +46,10 @@ class Administrator :private Bank
 };
 
 
-
 //Main class
  int main(){
+   Bank LMNBank;
+   
 
    
 
