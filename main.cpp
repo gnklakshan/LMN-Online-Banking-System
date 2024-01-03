@@ -30,6 +30,12 @@ class Customer
    public:
 
 };
+class Administrator{
+    private:
+
+    public:
+    
+};
 
 
  int main(){
