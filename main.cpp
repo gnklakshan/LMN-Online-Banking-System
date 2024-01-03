@@ -18,17 +18,17 @@
  };
 
 //Customer class
-class Customer
+class Customer : private Bank 
 {
    private:
-   
+
 
    public:
 
 };
 
 //Employee class
-class Employee
+class Employee : private Bank 
 {
    private:
     Customer customer;
@@ -43,7 +43,8 @@ class Employee
 
 
 //Administrator class
-class Administrator{
+class Administrator :private Bank 
+{
     private:
 
     public:
