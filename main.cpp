@@ -23,6 +23,7 @@ class Employee
 
 };
 
+//Customer class
 class Customer
 {
    private:
@@ -30,15 +31,18 @@ class Customer
    public:
 
 };
-// Administartor class
+
+//Administrator class
 class Administrator{
     private:
 
     public:
-
+    
 };
 
 
+
+//Main class
  int main(){
 
    
