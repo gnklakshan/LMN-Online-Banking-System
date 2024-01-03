@@ -14,17 +14,16 @@
    User(string AdminName) 
    {
       this->username = AdminName;
+      cout<<username<<endl;
    }
  };
 
  //Administrator class
-class Administrator  : User
+class Administrator  : private User
 {
-    private:
+   public:
+   
 
-    public:
-
-    
 };
 
 //Customer class
@@ -54,7 +53,7 @@ class Employee : private User
 //Main class
  int main(){
 
-   Admi
+   Administrator admin();
 
     return 0;
  }
