@@ -4,20 +4,30 @@
  
  using namespace std;
 
- class Bank{
+ class User{
    protected:
    string username;
    string password = "Password@1234";
 
-   // public:
-   // Bank(string username,string password) {
-   //    this->username =(username);
-   //    this->password=(password);
-   // }
+   public:
+   User(string AdminName) 
+   {
+      this->username = AdminName;
+   }
  };
 
+ //Administrator class
+class Administrator  : User
+{
+    private:
+
+    public:
+
+    
+};
+
 //Customer class
-class Customer : private Bank 
+class Customer : private User
 {
    private:
 
@@ -27,7 +37,7 @@ class Customer : private Bank
 };
 
 //Employee class
-class Employee : private Bank 
+class Employee : private User 
 {
    private:
 
@@ -36,22 +46,10 @@ class Employee : private Bank
 };
 
 
-//Administrator class
-class Administrator :private Bank 
-{
-    private:
-
-    public:
-    
-};
-
-
 //Main class
  int main(){
-   Bank LMNBank;
-   
 
-   
+   Admi
 
     return 0;
  }
