@@ -16,6 +16,16 @@
    }
  };
 
+//Customer class
+class Customer
+{
+   private:
+   
+
+   public:
+
+};
+
 //Employee class
 class Employee
 {
@@ -25,14 +35,7 @@ class Employee
 
 };
 
-//Customer class
-class Customer
-{
-   private:
 
-   public:
-
-};
 
 //Administrator class
 class Administrator{
