@@ -1,6 +1,7 @@
 //LMN-Online-Banking-System
 //
-#include<iostream> 
+#include<iostream>
+#include<string>
  
  using namespace std;
 
@@ -40,8 +41,12 @@ class Customer : private User
 class Employee : private User 
 {
    private:
+    Customer customer;
 
    public:
+   void addCustomer(string username){
+        
+   }
 
 };
 
