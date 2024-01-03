@@ -30,11 +30,12 @@ class Customer
    public:
 
 };
+// Administartor class
 class Administrator{
     private:
 
     public:
-    
+
 };
 
 
