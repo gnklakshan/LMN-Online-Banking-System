@@ -14,6 +14,16 @@
    }
  };
 
+//Employee class
+class Employee
+{
+   private:
+
+   public:
+
+};
+
+
  int main(){
 
    
