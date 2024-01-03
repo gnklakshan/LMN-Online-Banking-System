@@ -25,6 +25,14 @@ class Employee
 
 };
 
+class Customer
+{
+   private:
+
+   public:
+
+};
+
 
  int main(){
 
