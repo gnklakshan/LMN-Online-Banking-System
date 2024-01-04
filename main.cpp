@@ -62,20 +62,38 @@
 #include <iostream>
 #include <string>
 #include <conio.h> 
+#include<fstream>
 using namespace std;
 
+<<<<<<<<< Temporary merge branch 1
+=========
 
 
+//AddBank account class
+class CurrentAccount
+{
+   private:
 
-
+   public:
+};
 
 class SavingAccount
 {
    private:
-   double balance;
+   double SavingsBalance = 0 ;
+   double DailyinterrestAmount = 0;
 
 
    public:
+   void setSavingsBalance(double InitialSavingsAmount){
+    SavingsBalance = InitialSavingsAmount;
+   }
+  /*
+   double calculateInterest(double Amount){
+     DailyinterrestAmount = SavingsBalance;//* rtae
+   }
+
+  */
 };
 
 class Profile
@@ -94,66 +112,22 @@ private:
     string name;
     string contract_no;
 
-
 public:
     Customer(){ }
     Customer(string Name) : name(Name),contract_no("0112782516")
-    {cout << "Customer created" << endl;
-    }
+    {cout << "Customer created" << endl;}
 
 
 };
 
-//add node to the link list
-struct Node
-{
-    Customer Newcustomer;
-    Node *next;
-    Node *prev;
-    
-};
-
-class Customerlist
-{
-    private:
-    Node *start;
-
-    public:
-    void AddCustomer(Customer newCustomer)
-    {
-        Node* node = new Node;
-        node->Newcustomer = newCustomer;
-        if (start == nullptr)
-        {
-            node->prev = nullptr;
-            node->next = nullptr;
-            start = node;
-        }
-        else
-        {
-            node->prev = nullptr;
-            node->next = start;
-            start->prev = node;
-            start = node;
-        }
-    }
-
-
-};
-
-class CustomerDatabase
-{
-    protected:
-    Customerlist CustomerDatabaselist;
-
-};
-
-class Employee : public Profile,virtual public CustomerDatabase
+class Employee : public Profile
 {
 private:
     int no;
     int customer_count=0;
     Customer *customerlist = new Customer[20];
+
+
 
 public:
     Employee() : Profile("Employee"), no(0) {}
@@ -166,12 +140,10 @@ public:
     {
         Customer newcustomer("Customer01");
         if (customer_count<50)
-            //customerlist[customer_count]=newcustomer;
-            CustomerDatabaselist.AddCustomer(newcustomer);
+            customerlist[customer_count]=newcustomer;
         customer_count++;
 
     }
-
 };
 
 class Administatrator : public Profile
@@ -179,13 +151,11 @@ class Administatrator : public Profile
     private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
-    int Annualinterest=0;
-    double OverdraftCharge=0;
 
     public:
     Administatrator() : Profile("Admin")
     {
-
+        cout << "Administrator created" << endl;
     }
     void create_employee()
     {
@@ -194,36 +164,17 @@ class Administatrator : public Profile
         if (employee_count < 20)
             employeelist[employee_count - 1] = newemployee;
     }
-    void setAnnualSavingInterest(int annualInterest){
-        Annualinterest=annualInterest;
-    }
-    void setOverdraft(double overdraftCharge){
-        OverdraftCharge=overdraftCharge;
-    }
-
 
     Employee return_employee()
     {
         return employeelist[0];
     }
 };
-//AddBank account class
-class CurrentAccount : public Administatrator  {
-private:
-    double balance;
-    int creditLimit;
-
-public:
-    CurrentAccount(double initialBalance, int initialCreditLimit) : balance(initialBalance), creditLimit(initialCreditLimit) {}
-
-    void setCreditLimit(int adminLimit) {
-        creditLimit = adminLimit;
-    }
-};
 
 int main()
 {
     Administatrator admin1;
+    SavingAccount BankSavingsAccout;
 
     //create a new employee by administator
     admin1.create_employee();
