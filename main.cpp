@@ -65,9 +65,6 @@
 #include<fstream>
 using namespace std;
 
-<<<<<<<<< Temporary merge branch 1
-=========
-
 
 //AddBank account class
 class CurrentAccount
