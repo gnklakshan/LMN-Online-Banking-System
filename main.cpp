@@ -61,6 +61,7 @@
 //----------------------------------------------------------------
 #include <iostream>
 #include <string>
+#include <conio.h> 
 using namespace std;
 
 //AddBank account class
@@ -165,6 +166,51 @@ int main()
     admin1.return_employee().addCustomer();
     admin1.return_employee().addCustomer();
     admin1.return_employee().addCustomer();
+
+      //Administrator admin();
+   string username_in;
+   string password_in;
+   char ch;
+   cout<<"Please enter your credentials and log in to the system"<<endl;
+   cout<<"Please enter your username : ";
+   cin>>username_in;
+   cout<<"Please enter your password : ";
+   while ((ch = _getch()) != '\r') {
+        if (ch == '\b' && !password_in.empty()) {
+            cout << "\b \b"; // Backspace handling
+            password_in.pop_back();
+        } else if (ch != '\b') {
+            password_in.push_back(ch);
+            cout << '*';
+        }
+    }
+   cout<<password_in<<endl;
+    cout << endl;
+ /**
+  * 
+  *
+    //cin>>password_in;
+   //validate password
+   if(password_in == password){
+     // check the username wording
+      //check if the usernmae if for An admin
+   if(username_in ==){
+      //check if it is an employee
+   }else if(){
+      //check if it is an account holder/customer
+   }else if(){
+
+   }else{
+      cout<<"Wrong credentials : Please check your username or password"<<endl;
+      return main();
+   }
+
+   }else{
+      cout<<"Wrong credentials : Please check your username or password"<<endl;
+      return main();
+   }
+ 
+ */
 
     return 0;
 }
