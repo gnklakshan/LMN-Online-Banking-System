@@ -186,27 +186,13 @@ class SavingAccount
   */
 };
 
-int main()
+
+//Function definitions
+bool user_authentication(string username)
 {
-    Administatrator admin1;
-    SavingAccount BankSavingsAccout;
-    string username_in;
-    string password_in;
-    bool condition;
-
-    do
-    {
         // clear variables values
-        username_in.clear();
-        password_in.clear();
-        system("CLS");
-
-        cout << "\tWelcome to the LMN Banking Management System.\n"
-             << endl;
-        cout << "________________________________________________________________" << endl;
-        cout << "Admin Login" << endl;
-        cout << "----------------------------------------------------------------\n"
-             << endl;
+        string username_in;
+        string password_in;
 
         char ch;
         cout << "Please enter your credentials and log in to the system" << endl;
@@ -226,7 +212,29 @@ int main()
                 cout << '*';
             }
         }
-        condition = (username_in == "admin" && password_in == "Password@1234");
+        bool condition = (username_in == username && password_in == "Password@1234");
+        return condition;
+}
+int main()
+{
+    Administatrator admin1;
+    SavingAccount BankSavingsAccout;
+    bool condition;
+
+    do
+    {
+        // clear variables values
+        system("CLS");
+
+        cout << "\tWelcome to the LMN Banking Management System.\n"
+             << endl;
+        cout << "________________________________________________________________" << endl;
+        cout << "Admin Login" << endl;
+        cout << "----------------------------------------------------------------\n"
+             << endl;
+
+        condition = user_authentication("admin");
+
         if (!condition)
             cout << "Incorrect username or password! Try again\n"
                  << endl;
