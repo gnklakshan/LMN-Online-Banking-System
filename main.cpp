@@ -2,7 +2,7 @@
 // //
 // #include<iostream>
 // #include<string>
- 
+
 //  using namespace std;
 
 //  class User{
@@ -11,7 +11,7 @@
 //    string password = "Password@1234";
 
 //    public:
-//    User(string AdminName) 
+//    User(string AdminName)
 //    {
 //       this->username = AdminName;
 //       cout<<username<<endl;
@@ -22,7 +22,6 @@
 // class Administrator  : private User
 // {
 //    public:
-   
 
 // };
 
@@ -31,24 +30,22 @@
 // {
 //    private:
 
-
 //    public:
 
 // };
 
 // //Employee class
-// class Employee : private User 
+// class Employee : private User
 // {
 //    private:
 //     Customer customer;
 
 //    public:
 //    void addCustomer(string username){
-        
+
 //    }
 
 // };
-
 
 // //Main class
 //  int main(){
@@ -61,10 +58,9 @@
 //----------------------------------------------------------------
 #include <iostream>
 #include <string>
-#include <conio.h> 
-#include<fstream>
+#include <conio.h>
+#include <fstream>
 using namespace std;
-
 
 class Profile
 {
@@ -83,66 +79,142 @@ private:
     string contract_no;
 
 public:
-    Customer(){ }
-    Customer(string Name) : name(Name),contract_no("0112782516")
-    {cout << "Customer created" << endl;}
+    Customer() {}
+    Customer(string Name) : name(Name), contract_no("0112782516")
+    {
+        cout << "Customer created" << endl;
+    }
+    void printname()
+    {
+        cout<< name << endl;
+    }
+};
 
+//add node to the link list
+struct Node
+{
+    Customer customer;
+    Node *next;
+};
+
+class Customerlist
+{
+private:
+    Node *start;
+
+public:
+    Customerlist() : start(nullptr) {}
+
+    void AddCustomer(Customer newCustomer)
+    {
+        Node *node = new Node;
+        node->customer = newCustomer;
+        node->next = nullptr;
+
+        if (start == nullptr)
+        {
+            start = node;
+        }
+        else
+        {
+            Node *temp = start;
+            while (temp->next != nullptr)
+            {
+                temp = temp->next;
+            }
+            temp->next = node;
+        }
+    }
+
+    void printfirstelement()
+    {
+        if (start == nullptr)
+            cout << "-1" << endl;
+        else
+        {
+            start->customer.printname();
+            int count =2;
+            Node *temp = start;
+            while (temp->next != nullptr)
+            {
+                temp = temp->next;
+                count++;
+            }
+            cout<<count<<endl;
+        }
+    }
+};
+
+
+class CustomerDatabase
+{
+    protected:
+    Customerlist CustomerDatabaselist;
+
+    public:
+    Customerlist *GetCustomerDatabaselist()
+    {
+        return &CustomerDatabaselist;
+    }
 
 };
 
-class Employee : public Profile
+class Employee : public Profile  
 {
 private:
     int no;
-    int customer_count=0;
-    Customer *customerlist = new Customer[20];
-
-
+    int customer_count = 0;
+    CustomerDatabase *database1;
+    // Customer *customerlist = new Customer[20];
 
 public:
     Employee() : Profile("Employee"), no(0) {}
 
-    Employee(string employeeName) : Profile(employeeName)
+    Employee(string employeeName,CustomerDatabase *db) : Profile(employeeName),database1(db)
     {
         cout << "Employee created" << endl;
     }
     void addCustomer()
     {
-        Customer newcustomer("Customer01");
-        if (customer_count<50)
-            customerlist[customer_count]=newcustomer;
         customer_count++;
+        if (customer_count <= 50)
+        { 
+            Customer newcustomer("Customer01");
+            database1->GetCustomerDatabaselist()->AddCustomer(newcustomer);
 
+        }
     }
+
 };
 
 class Administatrator : public Profile
 {
-    private:
+private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
-    int AnnualIntrest=0;
-    double OverdarftCharge=0;
+    int AnnualIntrest = 0;
+    double OverdarftCharge = 0;
 
-    public:
+public:
     Administatrator() : Profile("Admin")
     {
         cout << "Administrator created" << endl;
     }
-    void create_employee()
+    void create_employee(CustomerDatabase *sharedDatabase)
     {
         employee_count++;
-        Employee newemployee("Employee1");
+        Employee newemployee("Employee" , sharedDatabase);
         if (employee_count < 20)
             employeelist[employee_count - 1] = newemployee;
     }
-    void setAnnualSavingInterest(int annualInterest){
-        AnnualIntrest=annualInterest;
+    void setAnnualSavingInterest(int annualInterest)
+    {
+        AnnualIntrest = annualInterest;
     }
-    void setOverdraft(double overdraftCharge){
-        OverdarftCharge=overdraftCharge;
+    void setOverdraft(double overdraftCharge)
+    {
+        OverdarftCharge = overdraftCharge;
     }
-
 
     Employee return_employee()
     {
@@ -150,116 +222,140 @@ class Administatrator : public Profile
     }
 };
 
-//AddBank account class
-class CurrentAccount: public Administatrator
+// AddBank account class
+class CurrentAccount : public Administatrator
 {
-   private:
-   double Balance=0;
-   double Overdarft=0;
+private:
+    double Balance = 0;
+    double Overdarft = 0;
 
-
-   public:
-   void deposit(double depositValue){
-    Balance=Balance+depositValue;
-   }
-   void withdraw(double widthrawValue){
-    Balance=Balance-widthrawValue;
-   }
-   
+public:
+    void deposit(double depositValue)
+    {
+        Balance = Balance + depositValue;
+    }
+    void withdraw(double widthrawValue)
+    {
+        Balance = Balance - widthrawValue;
+    }
 };
 class SavingAccount
 {
-   private:
-   double SavingsBalance = 0 ;
-   double DailyinterrestAmount = 0;
+private:
+    double SavingsBalance = 0;
+    double DailyinterrestAmount = 0;
 
+public:
+    void setSavingsBalance(double InitialSavingsAmount)
+    {
+        SavingsBalance = InitialSavingsAmount;
+    }
+    /*
+     double calculateInterest(double Amount){
+       DailyinterrestAmount = SavingsBalance;//* rtae
+     }
 
-   public:
-   void setSavingsBalance(double InitialSavingsAmount){
-    SavingsBalance = InitialSavingsAmount;
-   }
-  /*
-   double calculateInterest(double Amount){
-     DailyinterrestAmount = SavingsBalance;//* rtae
-   }
-
-  */
+    */
 };
 
-
-//Function definitions
+// Function definitions
 bool user_authentication(string username)
 {
-        // clear variables values
-        string username_in;
-        string password_in;
+    // clear variables values
+    string username_in;
+    string password_in;
 
-        char ch;
-        cout << "Please enter your credentials and log in to the system" << endl;
-        cout << "\nEnter your username : ";
-        cin >> username_in;
-        cout << "Enter your password : ";
-        while ((ch = _getch()) != '\r')
+    system("CLS");
+
+    cout << "\tWelcome to the LMN Banking Management System.\n"
+         << endl;
+    cout << "________________________________________________________________" << endl;
+    if (username == "admin")
+        cout << "Admin Login" << endl;
+    else if (username == "employee")
+        cout << "Employee Login" << endl;
+    cout << "----------------------------------------------------------------\n"
+         << endl;
+
+    char ch;
+    cout << "Please enter your credentials and log in to the system" << endl;
+    cout << "\nEnter your username : ";
+    cin >> username_in;
+    cout << "Enter your password : ";
+    while ((ch = _getch()) != '\r')
+    {
+        if (ch == '\b' && !password_in.empty())
         {
-            if (ch == '\b' && !password_in.empty())
-            {
-                cout << "\b \b"; // Backspace handling
-                password_in.pop_back();
-            }
-            else if (ch != '\b')
-            {
-                password_in.push_back(ch);
-                cout << '*';
-            }
+            cout << "\b \b"; // Backspace handling
+            password_in.pop_back();
         }
-        bool condition = (username_in == username && password_in == "Password@1234");
-        return condition;
+        else if (ch != '\b')
+        {
+            password_in.push_back(ch);
+            cout << '*';
+        }
+    }
+    bool condition = (username_in == username && password_in == "Password@1234");
+    return condition;
 }
 int main()
 {
     Administatrator admin1;
     SavingAccount BankSavingsAccout;
-    bool condition;
+    bool condition_admin,condition_employee;
+    CustomerDatabase sharedDatabase;
 
     do
     {
-        // clear variables values
-        system("CLS");
+        condition_admin = user_authentication("admin");
 
-        cout << "\tWelcome to the LMN Banking Management System.\n"
-             << endl;
-        cout << "________________________________________________________________" << endl;
-        cout << "Admin Login" << endl;
-        cout << "----------------------------------------------------------------\n"
-             << endl;
-
-        condition = user_authentication("admin");
-
-        if (!condition)
+        if (!condition_admin)
             cout << "Incorrect username or password! Try again\n"
                  << endl;
-
-    } while (!condition);
+    } while (!condition_admin);
 
     // if admin credential is verified
-    if (condition == true)
+    if (condition_admin == true)
     {
-        cout<<"condition verified\n"<< endl;
+        cout << "condition verified\n"
+             << endl;
         char Yes_or_No = 'y';
         cout << "Do you need to add a new employee (y/n):";
         cin >> Yes_or_No;
         while (Yes_or_No == 'y' || Yes_or_No == 'Y')
         {
-            admin1.create_employee();       // create a new employee by administator
+            admin1.create_employee(&sharedDatabase); // create a new employee by administator
             cout << "Do you need to add another new employee (y/n):";
             cin >> Yes_or_No;
         }
     }
+//------------------------------------------------------------need to add exit method for admin classs before switch to the employee class
+    // Loggin to the employee profile_________________________________________
+    do
+    {
+        condition_employee = user_authentication("employee");
 
-    // create customer by an employee
-    admin1.return_employee().addCustomer();
-    admin1.return_employee().addCustomer();
-    admin1.return_employee().addCustomer();
+        if (!condition_employee)
+            cout << "Incorrect username or password! Try again\n"
+                 << endl;
+    } while (!condition_employee);
+
+    // if employee credential is verified
+    if (condition_employee == true)
+    {
+        cout << "condition verified\n"
+             << endl;
+        char Yes_or_No = 'y';
+        cout << "Do you need to add a new Customer (y/n):";
+        cin >> Yes_or_No;
+        while (Yes_or_No == 'y' || Yes_or_No == 'Y')
+        {
+            admin1.return_employee().addCustomer(); // create a new employee by customer
+            cout << "Do you need to add another new customer (y/n):";
+            cin >> Yes_or_No;
+        }
+    }
+
 
     // Administrator admin();
 
