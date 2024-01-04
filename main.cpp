@@ -228,6 +228,7 @@ class CurrentAccount : public Administatrator
 private:
     double Balance = 0;
     double Overdarft = 0;
+    int AccNo;
 
 public:
     void deposit(double depositValue)
@@ -239,11 +240,12 @@ public:
         Balance = Balance - widthrawValue;
     }
 };
-class SavingAccount
+class SavingAccount: public Administatrator
 {
    private:
    double SavingsBalance = 0 ;
    double DailyinterrestAmount = 0;
+   int AccNo;
 
 
    public:
