@@ -59,12 +59,12 @@
 //  }
 
 //----------------------------------------------------------------
-
 #include <iostream>
 #include <string>
 using namespace std;
 
-class Profile {
+class Profile
+{
 public:
     string username;
     string password = "Password@1234";
@@ -73,46 +73,81 @@ public:
     Profile(string name) : username(name) {}
 };
 
-class Employee : public Profile {
+class Customer
+{
+private:
+    string name;
+    string contract_no;
+
+public:
+    Customer(){ }
+    Customer(string Name) : name(Name),contract_no("0112782516")
+    {cout << "Customer created" << endl;}
+
+
+};
+
+class Employee : public Profile
+{
 private:
     int no;
+    int customer_count=0;
+    Customer *customerlist = new Customer[20];
 
 public:
     Employee() : Profile("Employee"), no(0) {}
 
-    Employee(string employeeName) : Profile(employeeName) {
+    Employee(string employeeName) : Profile(employeeName)
+    {
         cout << "Employee created" << endl;
+    }
+    void addCustomer()
+    {
+        Customer newcustomer("Customer01");
+        if (customer_count<50)
+            customerlist[customer_count]=newcustomer;
+        customer_count++;
+
     }
 };
 
-class database {
-protected:
-    int employee_count=0;
-    Employee* employeelist = new Employee[20];
-};
+class Administatrator : public Profile
+{
+    private:
+    int employee_count = 0;
+    Employee *employeelist = new Employee[20];
 
-class Administatrator : public Profile, public database {
-public:
-    Administatrator() : Profile("Admin") {
+    public:
+    Administatrator() : Profile("Admin")
+    {
         cout << "Administrator created" << endl;
     }
     void create_employee()
     {
         employee_count++;
         Employee newemployee("Employee1");
-        if(employee_count<20)
-            employeelist[employee_count-1] = newemployee;
+        if (employee_count < 20)
+            employeelist[employee_count - 1] = newemployee;
+    }
 
+    Employee return_employee()
+    {
+        return employeelist[0];
     }
 };
 
-int main() {
+int main()
+{
     Administatrator admin1;
+
+    //create a new employee by administator
     admin1.create_employee();
     admin1.create_employee();
     admin1.create_employee();
     admin1.create_employee();
+
+    //create customer by an employee
+    admin1.return_employee().addCustomer();
 
     return 0;
 }
-
