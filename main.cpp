@@ -192,7 +192,7 @@ class Administatrator : public Profile
 private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
-    int AnnualIntrest = 0;
+    double AnnualIntrest = 0;
     double OverdarftCharge = 0;
 
 public:
@@ -211,9 +211,15 @@ public:
     {
         AnnualIntrest = annualInterest;
     }
-    void setOverdraft(double overdraftCharge)
-    {
-        OverdarftCharge = overdraftCharge;
+       double getAnnualSavingsInterest(){
+        return AnnualIntrest;
+    }
+    void setOverdraft(double overdraftCharge){
+        OverdarftCharge=overdraftCharge;
+    }
+
+    double getOverdraft(){
+        return OverdarftCharge;
     }
 
     Employee return_employee()
@@ -244,20 +250,21 @@ class SavingAccount: public Administatrator
 {
    private:
    double SavingsBalance = 0 ;
-   double DailyinterrestAmount = 0;
-   int AccNo;
+   double DailyinterestAmount = 0;
 
 
    public:
    void setSavingsBalance(double InitialSavingsAmount){
     SavingsBalance = InitialSavingsAmount;
    }
-  /*
-   double calculateInterest(double Amount){
-     DailyinterrestAmount = SavingsBalance;//* rtae
+  
+   void calculateInterest(){
+     DailyinterestAmount = SavingsBalance*(getAnnualSavingsInterest()/365);
+     SavingsBalance = SavingsBalance-DailyinterestAmount;
    }
-
-  */
+   double getDailyInterest(){
+    return DailyinterestAmount;
+   }
 };
 
 // Function definitions
