@@ -63,6 +63,21 @@
 #include <string>
 using namespace std;
 
+//AddBank account class
+class CurrentAccount
+{
+   private:
+
+   public:
+};
+
+class SavingAccount
+{
+   private:
+
+   public:
+};
+
 class Profile
 {
 public:
@@ -147,6 +162,8 @@ int main()
     admin1.create_employee();
 
     //create customer by an employee
+    admin1.return_employee().addCustomer();
+    admin1.return_employee().addCustomer();
     admin1.return_employee().addCustomer();
 
     return 0;
