@@ -90,12 +90,6 @@ public:
 public:
     Profile(string name) : username(name) {}
 };
-class database
-{
-    private:
-
-
-};
 
 class Customer
 {
