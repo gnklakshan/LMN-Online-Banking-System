@@ -262,23 +262,7 @@ class SavingAccount: public Administatrator
    void setSavingsBalance(double InitialSavingsAmount){
     SavingsBalance = InitialSavingsAmount;
    }
-<<<<<<< HEAD
-   double getSavingBalance(){
-    return SavingsBalance;
-   }
-  /*
-   double calculateInterest(double Amount){
-     DailyinterrestAmount = SavingsBalance;//* rtae
-=======
-  
-   void calculateInterest(){
-     DailyinterestAmount = SavingsBalance*(getAnnualSavingsInterest()/365);
-     SavingsBalance = SavingsBalance-DailyinterestAmount;
-   }
-   double getDailyInterest(){
-    return DailyinterestAmount;
->>>>>>> 4bc69b8624c05179acac8933c8904849932388b3
-   }
+
 
    double getSavingsBalance(){
         return SavingsBalance;
