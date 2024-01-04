@@ -66,26 +66,6 @@
 using namespace std;
 
 
-
-class SavingAccount
-{
-   private:
-   double SavingsBalance = 0 ;
-   double DailyinterrestAmount = 0;
-
-
-   public:
-   void setSavingsBalance(double InitialSavingsAmount){
-    SavingsBalance = InitialSavingsAmount;
-   }
-  /*
-   double calculateInterest(double Amount){
-     DailyinterrestAmount = SavingsBalance;//* rtae
-   }
-
-  */
-};
-
 class Profile
 {
 public:
@@ -186,6 +166,24 @@ class CurrentAccount: public Administatrator
     Balance=Balance-widthrawValue;
    }
    
+};
+class SavingAccount
+{
+   private:
+   double SavingsBalance = 0 ;
+   double DailyinterrestAmount = 0;
+
+
+   public:
+   void setSavingsBalance(double InitialSavingsAmount){
+    SavingsBalance = InitialSavingsAmount;
+   }
+  /*
+   double calculateInterest(double Amount){
+     DailyinterrestAmount = SavingsBalance;//* rtae
+   }
+
+  */
 };
 
 int main()
