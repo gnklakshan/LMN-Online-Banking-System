@@ -81,7 +81,7 @@ class SavingAccount
 
 
    public:
-   double setSavingsBalance(double InitialSavingsAmount){
+   void setSavingsBalance(double InitialSavingsAmount){
     SavingsBalance = InitialSavingsAmount;
    }
   /*
