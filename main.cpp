@@ -62,6 +62,7 @@
 #include <iostream>
 #include <string>
 #include <conio.h> 
+#include<fstream>
 using namespace std;
 
 //AddBank account class
@@ -75,8 +76,20 @@ class CurrentAccount
 class SavingAccount
 {
    private:
+   double SavingsBalance = 0 ;
+   double DailyinterrestAmount = 0;
+
 
    public:
+   double setSavingsBalance(double InitialSavingsAmount){
+    SavingsBalance = InitialSavingsAmount;
+   }
+  /*
+   double calculateInterest(double Amount){
+     DailyinterrestAmount = SavingsBalance;//* rtae
+   }
+
+  */
 };
 
 class Profile
@@ -109,6 +122,8 @@ private:
     int no;
     int customer_count=0;
     Customer *customerlist = new Customer[20];
+
+
 
 public:
     Employee() : Profile("Employee"), no(0) {}
@@ -155,6 +170,7 @@ class Administatrator : public Profile
 int main()
 {
     Administatrator admin1;
+    SavingAccount BankSavingsAccout;
 
     //create a new employee by administator
     admin1.create_employee();
