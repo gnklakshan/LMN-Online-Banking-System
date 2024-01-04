@@ -65,13 +65,7 @@
 #include<fstream>
 using namespace std;
 
-//AddBank account class
-class CurrentAccount
-{
-   private:
 
-   public:
-};
 
 class SavingAccount
 {
@@ -165,6 +159,14 @@ class Administatrator : public Profile
     {
         return employeelist[0];
     }
+};
+
+//AddBank account class
+class CurrentAccount: public Administatrator
+{
+   private:
+
+   public:
 };
 
 int main()
