@@ -141,6 +141,8 @@ class Administatrator : public Profile
     private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
+    int AnnualIntrest=0;
+    double OverdarftCharge=0;
 
     public:
     Administatrator() : Profile("Admin")
@@ -154,6 +156,13 @@ class Administatrator : public Profile
         if (employee_count < 20)
             employeelist[employee_count - 1] = newemployee;
     }
+    void setAnnualSavingInterest(int annualInterest){
+        AnnualIntrest=annualInterest;
+    }
+    void setOverdraft(double overdraftCharge){
+        OverdarftCharge=overdraftCharge;
+    }
+
 
     Employee return_employee()
     {
@@ -165,8 +174,18 @@ class Administatrator : public Profile
 class CurrentAccount: public Administatrator
 {
    private:
+   double Balance=0;
+   double Overdarft=0;
+
 
    public:
+   void deposit(double depositValue){
+    Balance=Balance+depositValue;
+   }
+   void withdraw(double widthrawValue){
+    Balance=Balance-widthrawValue;
+   }
+   
 };
 
 int main()
