@@ -66,17 +66,14 @@ using namespace std;
 
 
 
-//AddBank account class
-class CurrentAccount
-{
-   private:
 
-   public:
-};
+
 
 class SavingAccount
 {
    private:
+   double balance;
+
 
    public:
 };
@@ -97,10 +94,12 @@ private:
     string name;
     string contract_no;
 
+
 public:
     Customer(){ }
     Customer(string Name) : name(Name),contract_no("0112782516")
-    {cout << "Customer created" << endl;}
+    {cout << "Customer created" << endl;
+    }
 
 
 };
@@ -172,6 +171,7 @@ public:
         customer_count++;
 
     }
+
 };
 
 class Administatrator : public Profile
@@ -179,11 +179,13 @@ class Administatrator : public Profile
     private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
+    int Annualinterest=0;
+    double OverdraftCharge=0;
 
     public:
     Administatrator() : Profile("Admin")
     {
-        cout << "Administrator created" << endl;
+
     }
     void create_employee()
     {
@@ -192,10 +194,30 @@ class Administatrator : public Profile
         if (employee_count < 20)
             employeelist[employee_count - 1] = newemployee;
     }
+    void setAnnualSavingInterest(int annualInterest){
+        Annualinterest=annualInterest;
+    }
+    void setOverdraft(double overdraftCharge){
+        OverdraftCharge=overdraftCharge;
+    }
+
 
     Employee return_employee()
     {
         return employeelist[0];
+    }
+};
+//AddBank account class
+class CurrentAccount : public Administatrator  {
+private:
+    double balance;
+    int creditLimit;
+
+public:
+    CurrentAccount(double initialBalance, int initialCreditLimit) : balance(initialBalance), creditLimit(initialCreditLimit) {}
+
+    void setCreditLimit(int adminLimit) {
+        creditLimit = adminLimit;
     }
 };
 
@@ -214,7 +236,7 @@ int main()
     admin1.return_employee().addCustomer();
     admin1.return_employee().addCustomer();
 
-      //Administrator admin();
+    //Administrator admin();
    string username_in;
    string password_in;
    char ch;
