@@ -265,6 +265,10 @@ class SavingAccount: public Administatrator
    double getDailyInterest(){
     return DailyinterestAmount;
    }
+
+   double getSavingsBalance(){
+        return SavingsBalance;
+   }
 };
 
 // Function definitions
