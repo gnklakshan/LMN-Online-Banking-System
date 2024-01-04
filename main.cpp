@@ -241,21 +241,21 @@ public:
 };
 class SavingAccount
 {
-private:
-    double SavingsBalance = 0;
-    double DailyinterrestAmount = 0;
+   private:
+   double SavingsBalance = 0 ;
+   double DailyinterrestAmount = 0;
 
-public:
-    void setSavingsBalance(double InitialSavingsAmount)
-    {
-        SavingsBalance = InitialSavingsAmount;
-    }
-    /*
-     double calculateInterest(double Amount){
-       DailyinterrestAmount = SavingsBalance;//* rtae
-     }
 
-    */
+   public:
+   void setSavingsBalance(double InitialSavingsAmount){
+    SavingsBalance = InitialSavingsAmount;
+   }
+  /*
+   double calculateInterest(double Amount){
+     DailyinterrestAmount = SavingsBalance;//* rtae
+   }
+
+  */
 };
 
 // Function definitions
