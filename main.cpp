@@ -67,6 +67,8 @@ using namespace std;
 
 
 
+
+
 class SavingAccount
 {
    private:
@@ -102,7 +104,51 @@ public:
 
 };
 
-class Employee : public Profile
+//add node to the link list
+struct Node
+{
+    Customer Newcustomer;
+    Node *next;
+    Node *prev;
+    
+};
+
+class Customerlist
+{
+    private:
+    Node *start;
+
+    public:
+    void AddCustomer(Customer newCustomer)
+    {
+        Node* node = new Node;
+        node->Newcustomer = newCustomer;
+        if (start == nullptr)
+        {
+            node->prev = nullptr;
+            node->next = nullptr;
+            start = node;
+        }
+        else
+        {
+            node->prev = nullptr;
+            node->next = start;
+            start->prev = node;
+            start = node;
+        }
+    }
+
+
+};
+
+class CustomerDatabase
+{
+    protected:
+    Customerlist CustomerDatabaselist;
+
+};
+
+class Employee : public Profile,virtual public CustomerDatabase
 {
 private:
     int no;
@@ -120,7 +166,8 @@ public:
     {
         Customer newcustomer("Customer01");
         if (customer_count<50)
-            customerlist[customer_count]=newcustomer;
+            //customerlist[customer_count]=newcustomer;
+            CustomerDatabaselist.AddCustomer(newcustomer);
         customer_count++;
 
     }
