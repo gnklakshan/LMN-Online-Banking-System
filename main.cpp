@@ -190,64 +190,96 @@ int main()
 {
     Administatrator admin1;
     SavingAccount BankSavingsAccout;
+    string username_in;
+    string password_in;
+    bool condition;
 
-    
+    do
+    {
+        // clear variables values
+        username_in.clear();
+        password_in.clear();
+        system("CLS");
 
-    //create a new employee by administator
-    admin1.create_employee();
-    admin1.create_employee();
-    admin1.create_employee();
-    admin1.create_employee();
+        cout << "\tWelcome to the LMN Banking Management System.\n"
+             << endl;
+        cout << "________________________________________________________________" << endl;
+        cout << "Admin Login" << endl;
+        cout << "----------------------------------------------------------------\n"
+             << endl;
 
-    //create customer by an employee
-    admin1.return_employee().addCustomer();
-    admin1.return_employee().addCustomer();
-    admin1.return_employee().addCustomer();
+        char ch;
+        cout << "Please enter your credentials and log in to the system" << endl;
+        cout << "\nEnter your username : ";
+        cin >> username_in;
+        cout << "Enter your password : ";
+        while ((ch = _getch()) != '\r')
+        {
+            if (ch == '\b' && !password_in.empty())
+            {
+                cout << "\b \b"; // Backspace handling
+                password_in.pop_back();
+            }
+            else if (ch != '\b')
+            {
+                password_in.push_back(ch);
+                cout << '*';
+            }
+        }
+        condition = (username_in == "admin" && password_in == "Password@1234");
+        if (!condition)
+            cout << "Incorrect username or password! Try again\n"
+                 << endl;
 
-      //Administrator admin();
-   string username_in;
-   string password_in;
-   char ch;
-   cout<<"Please enter your credentials and log in to the system"<<endl;
-   cout<<"Please enter your username : ";
-   cin>>username_in;
-   cout<<"Please enter your password : ";
-   while ((ch = _getch()) != '\r') {
-        if (ch == '\b' && !password_in.empty()) {
-            cout << "\b \b"; // Backspace handling
-            password_in.pop_back();
-        } else if (ch != '\b') {
-            password_in.push_back(ch);
-            cout << '*';
+    } while (!condition);
+
+    // if admin credential is verified
+    if (condition == true)
+    {
+        cout<<"condition verified\n"<< endl;
+        char Yes_or_No = 'y';
+        cout << "Do you need to add a new employee (y/n):";
+        cin >> Yes_or_No;
+        while (Yes_or_No == 'y' || Yes_or_No == 'Y')
+        {
+            admin1.create_employee();       // create a new employee by administator
+            cout << "Do you need to add another new employee (y/n):";
+            cin >> Yes_or_No;
         }
     }
-   cout<<password_in<<endl;
-    cout << endl;
- /**
-  * 
-  *
-    //cin>>password_in;
-   //validate password
-   if(password_in == password){
-     // check the username wording
-      //check if the usernmae if for An admin
-   if(username_in ==){
-      //check if it is an employee
-   }else if(){
-      //check if it is an account holder/customer
-   }else if(){
 
-   }else{
-      cout<<"Wrong credentials : Please check your username or password"<<endl;
-      return main();
-   }
+    // create customer by an employee
+    admin1.return_employee().addCustomer();
+    admin1.return_employee().addCustomer();
+    admin1.return_employee().addCustomer();
 
-   }else{
-      cout<<"Wrong credentials : Please check your username or password"<<endl;
-      return main();
-   }
- 
- */
+    // Administrator admin();
+
+    /**
+     *
+     *
+       //cin>>password_in;
+      //validate password
+      if(password_in == password){
+        // check the username wording
+         //check if the usernmae if for An admin
+      if(username_in ==){
+         //check if it is an employee
+      }else if(){
+         //check if it is an account holder/customer
+      }else if(){
+
+      }else{
+         cout<<"Wrong credentials : Please check your username or password"<<endl;
+         return main();
+      }
+
+      }else{
+         cout<<"Wrong credentials : Please check your username or password"<<endl;
+         return main();
+      }
+
+    */
 
     return 0;
 }
