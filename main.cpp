@@ -94,7 +94,9 @@ public:
 struct Node
 {
     Customer customer;
+    static int customerCount;
     Node *next;
+
 };
 
 class Customerlist
@@ -110,6 +112,9 @@ public:
         Node *node = new Node;
         node->customer = newCustomer;
         node->next = nullptr;
+        node->customerCount++;
+        cout<<"Customer Username= Customer"<<node->customerCount<<endl;
+
 
         if (start == nullptr)
         {
@@ -252,6 +257,9 @@ class SavingAccount: public Administatrator
    void setSavingsBalance(double InitialSavingsAmount){
     SavingsBalance = InitialSavingsAmount;
    }
+   double getSavingBalance(){
+    return SavingsBalance;
+   }
   /*
    double calculateInterest(double Amount){
      DailyinterrestAmount = SavingsBalance;//* rtae
@@ -306,6 +314,7 @@ int main()
     SavingAccount BankSavingsAccout;
     bool condition_admin,condition_employee;
     CustomerDatabase sharedDatabase;
+    BankSavingsAccout.setSavingsBalance(100000);
 
     do
     {
