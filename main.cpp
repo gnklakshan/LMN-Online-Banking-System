@@ -120,7 +120,7 @@ public:
 
     Employee(string employeeName, Database *db) : Profile(employeeName), database1(db)
     {
-        cout << "Employee created" << endl;
+        cout << "\n\tEmployee created : [Username : "<< employeeName<< " ]\n"<<endl;
     }
     void addCustomer()
     {
@@ -152,7 +152,8 @@ public:
     void create_employee(Database *sharedDatabase)
     {
         employee_count++;
-        Employee newemployee("Employee", sharedDatabase);
+        string name = "Employee0"+to_string(employee_count);
+        Employee newemployee(name, sharedDatabase);
         if (employee_count < 20)
             employeelist[employee_count - 1] = newemployee;
     }
