@@ -90,7 +90,7 @@ public:
     }
 };
 
-class CustomerDatabase
+class Database
 {
 protected:
     Customerlist CustomerDatabaselist;
@@ -113,12 +113,12 @@ class Employee : public Profile
 private:
     int no;
     int customer_count = 0;
-    CustomerDatabase *database1;
+    Database *database1;
 
 public:
     Employee() : Profile("Employee"), no(0) {}
 
-    Employee(string employeeName, CustomerDatabase *db) : Profile(employeeName), database1(db)
+    Employee(string employeeName, Database *db) : Profile(employeeName), database1(db)
     {
         cout << "Employee created" << endl;
     }
@@ -137,18 +137,18 @@ class Administatrator : public Profile
 private:
     int employee_count = 0;
     Employee *employeelist = new Employee[20];
-    CustomerDatabase *database;
+    Database *database;
     double AnnualIntrest = 0;
     double OverdarftCharge = 0;
 
 public:
     Administatrator() : Profile("Admin") {}
 
-    Administatrator(CustomerDatabase *db) : Profile("Admin"), database(db)
+    Administatrator(Database *db) : Profile("Admin"), database(db)
     {
         cout << "Administrator created" << endl;
     }
-    void create_employee(CustomerDatabase *sharedDatabase)
+    void create_employee(Database *sharedDatabase)
     {
         employee_count++;
         Employee newemployee("Employee", sharedDatabase);
@@ -269,7 +269,7 @@ bool user_authentication(string username)
     bool condition = (username_in == username && password_in == "Password@1234");
     return condition;
 }
-void admin_attributes_in_main_fun(Administatrator admin1, CustomerDatabase *sharedDatabase)
+void admin_attributes_in_main_fun(Administatrator admin1, Database *sharedDatabase)
 {
     int selection;
     cout << "-------------------------------------------------------" << endl;
@@ -330,7 +330,7 @@ void admin_attributes_in_main_fun(Administatrator admin1, CustomerDatabase *shar
     }
     }
 }
-void select_user_login(Administatrator admin1, CustomerDatabase *sharedDatabase, bool isAdmin)
+void select_user_login(Administatrator admin1, Database *sharedDatabase, bool isAdmin)
 {
     bool condition_admin, condition_employee;
     if (isAdmin == true)
@@ -382,7 +382,7 @@ void select_user_login(Administatrator admin1, CustomerDatabase *sharedDatabase,
 }
 int main()
 {
-    CustomerDatabase sharedDatabase;
+    Database sharedDatabase;
     Administatrator admin1(&sharedDatabase);
     admin1.create_employee(&sharedDatabase);  //initially there is an employee
     SavingAccount BankSavingsAccout;
