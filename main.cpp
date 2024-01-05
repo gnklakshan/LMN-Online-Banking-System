@@ -37,7 +37,6 @@ public:
 struct Node
 {
     Customer customer;
-    int customerCount = 0;
     Node *next;
 };
 
@@ -54,7 +53,6 @@ public:
         Node *node = new Node;
         node->customer = newCustomer;
         node->next = nullptr;
-        node->customerCount++;
 
         if (start == nullptr)
         {
