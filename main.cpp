@@ -24,7 +24,7 @@ public:
     Customer() {}
     Customer(string Name) : name(Name), contract_no("0112782516")
     {
-        cout << "Customer created" << endl;
+        cout << "\n\tCustomer created : [Username : "<< Name<< " ]\n"<<endl;
     }
     void printname()
     {
@@ -54,7 +54,6 @@ public:
         node->customer = newCustomer;
         node->next = nullptr;
         node->customerCount++;
-        cout << "Customer Username= Customer" << node->customerCount << endl;
 
         if (start == nullptr)
         {
@@ -71,22 +70,23 @@ public:
         }
     }
 
-    void printfirstelement()
+    int getcustomerCount()
     {
+        int count = 0;
         if (start == nullptr)
-            cout << "-1" << endl;
+            count = 0;
         else
         {
-            start->customer.printname();
-            int count = 2;
             Node *temp = start;
             while (temp->next != nullptr)
             {
                 temp = temp->next;
                 count++;
             }
-            cout << count << endl;
+            if(count ==0 && temp == start)
+                count = 1;
         }
+        return count;
     }
 };
 
@@ -112,7 +112,7 @@ class Employee : public Profile
 {
 private:
     int no;
-    int customer_count = 0;
+    int customer_count ;
     Database *database1;
 
 public:
@@ -124,10 +124,11 @@ public:
     }
     void addCustomer()
     {
-        customer_count++;
-        if (customer_count <= 50)
+        customer_count= database1->GetCustomerDatabaselist()->getcustomerCount() ;
+        if (customer_count < 50 )
         {
-            Customer newcustomer("Customer01");
+            string name = "Customer0"+to_string(customer_count+1);
+            Customer newcustomer(name);
             database1->GetCustomerDatabaselist()->AddCustomer(newcustomer);
         }
     }
@@ -401,7 +402,7 @@ int main()
         cin >> choice;
         // user authentication & log in
         select_user_login(admin1, &sharedDatabase, !choice);
-        sharedDatabase.GetCustomerDatabaselist()->printfirstelement();
+
         system("PAUSE");
     } while (true);
 
