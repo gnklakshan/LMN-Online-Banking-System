@@ -294,6 +294,7 @@ public:
             if(accchoice==0){
                 newcustomer.createSavingAccount(customer_count*2-1);
                 SavingAccount *SavingAccount=newcustomer.getSavingAccount();
+                
                 SavingAccount->deposit(0);
                 SavingAccount->withdraw(0);
                 cout<<"Created Saving Account: "<<SavingAccount->getAccountNo()<<endl;
@@ -372,10 +373,12 @@ public:
 void Customer::createSavingAccount(int accountNo){
     savingAccount= new SavingAccount(accountNo);
     isSaving=true;
+    savingAccount->setTransactionFileName(username);
 }
 void Customer::createCurrentAccount(int accountNo){
     currentAccount=new CurrentAccount(accountNo);
     isCurrent=true;
+    currentAccount->setTransactionFileName(username);
 }
 string search_customer_username(Database *sharedDatabase) {
     string username_in;

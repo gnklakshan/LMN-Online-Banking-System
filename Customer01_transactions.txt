@@ -1,0 +1,4 @@
+Account No: -1
+Transaction Type: Deposit
+Amount: 78900
+------------------------
