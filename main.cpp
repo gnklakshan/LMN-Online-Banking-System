@@ -3,16 +3,8 @@
 #include <limits> // for numeric_limits
 #include <conio.h>
 #include <fstream>
-#include "Profile.h"
-#include "Customer.h"
-#include "linklist.h"
-#include "Database.h"
-#include "Employee.h"
-#include "Employee.h"
-#include "Administator.h"
 using namespace std;
 
-<<<<<<< HEAD
 class SavingAccount;
 class CurrentAccount;
 class BankAccount{
@@ -20,9 +12,30 @@ class BankAccount{
     double balance;
     int accountNo;
     double AnnualIntrest;
+    string transactionFileName;
+
 
     public:
     BankAccount():balance(0),accountNo(0),AnnualIntrest(15){}
+    void setTransactionFileName(const string& username) {
+        transactionFileName = username + "_transactions.txt";
+    }
+
+    void saveTransaction(const string& transactionType, double amount) {
+        ofstream outFile(transactionFileName, ios::app);
+
+        if (outFile.is_open()) {
+            outFile << "Account No: " << accountNo << endl;
+            outFile << "Transaction Type: " << transactionType << endl;
+            outFile << "Amount: " << amount << endl;
+            //outFile << "Date: " << _DATE_ << " " << _TIME_ << endl;
+            outFile << "------------------------" << endl;
+
+            outFile.close();
+        } else {
+            cout << "Error opening the file for saving transactions." << endl;
+        }
+    }
 
     double getBalance(){
         return balance;
@@ -115,6 +128,7 @@ private:
 
 public:
     Customer() {}
+    Customer(string UserName,string name, string Phone_no) : username(UserName), contract_no(Phone_no),Name(name),savingAccount(nullptr),currentAccount(nullptr),isSaving(false),isCurrent(false)
     {
         cout << "\n\tCustomer created : [Username : " << UserName << " ]\n" << endl;
     }
@@ -140,6 +154,13 @@ public:
     }
     bool is_Current(){
         return isCurrent;
+    }
+    void  Set_is_Saving(bool b){
+        isSaving =b;
+    }
+
+        void  Set_is_Current(bool b){
+        isCurrent =b;
     }
 
     
@@ -210,6 +231,16 @@ public:
         }
         return count;
     }
+    void UpdateCustomer(const string username, Customer updatedCustomer) {
+        Node *temp = start;
+        while (temp != nullptr) {
+            if (temp->customer.getUsername() == username) {
+                temp->customer = updatedCustomer;
+                break;
+            }
+            temp = temp->next;
+        }
+    }
 };
 
 class Database
@@ -255,7 +286,6 @@ public:
             cout<<"Enter Customer Contract No : ";cin>>contract_no;
             string Username = "Customer0" + to_string(customer_count + 1);
             Customer newcustomer(Username,customer_name,contract_no);
-            database1->GetCustomerDatabaselist()->AddCustomer(newcustomer);
 
             //manavi
             int accchoice;
@@ -276,6 +306,9 @@ public:
                 CurrentAccount->withdraw(0);
                 cout<<"Created Current Account: "<<CurrentAccount->getAccountNo()<<endl;
             }
+
+            database1->GetCustomerDatabaselist()->AddCustomer(newcustomer);
+
         }
     }
 };
@@ -332,8 +365,6 @@ public:
         (*dayCount)++;
     }
 };
-=======
->>>>>>> afe5b51ca06bcf0130566dd85f695495f2adc869
 // AddBank account class
 
 // Function definitions
@@ -346,7 +377,25 @@ void Customer::createCurrentAccount(int accountNo){
     currentAccount=new CurrentAccount(accountNo);
     isCurrent=true;
 }
+string search_customer_username(Database *sharedDatabase) {
+    string username_in;
+    bool isInDatabase = false;
+    
+    do {
+        cout << "Enter your username : ";
+        cin >> username_in;
 
+        Customer foundCustomer = sharedDatabase->GetCustomerDatabaselist()->GetCustomer(username_in);
+        if (foundCustomer.getUsername() != "") {
+            isInDatabase = true;
+        } else {
+            cout << "\nUsername: " << username_in << " not found. Please try again." << endl;
+        }
+
+    } while (!isInDatabase);
+
+    return username_in;
+}
 bool user_authentication(string username,Database *sharedDatabase)
 {
     // clear variables values
@@ -371,9 +420,6 @@ bool user_authentication(string username,Database *sharedDatabase)
     cout << "Please enter your credentials and log in to the system" << endl;
    // cin.ignore(); // <-- Add this line to clear the input buffer
     cout << "\nEnter your username : ";
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
-
-    getline(cin, username_in); // Use getline to read the entire line
 
     cin >> username_in;
     cout << "Enter your password : ";
@@ -419,10 +465,6 @@ void admin_attributes_in_main_fun(Administatrator admin1, Database* sharedDataba
     cout << "[ 1 ] Add new Employee to the system" << endl;
     cout << "[ 2 ] Increase day count by 1 day" << endl;
     cout << "[ 3 ] Log out" << endl;
-    cout << "[ 4 ] Set Annual Savings Interest" << endl;
-    cout << "[ 5 ] Set Overdraft Charge" << endl;
-    cout << "-------------------------------------------------------\n"
-        << endl;
     cout << "Enter Operation Number to proceed : ";
     cin >> selection;
 
@@ -443,12 +485,7 @@ void admin_attributes_in_main_fun(Administatrator admin1, Database* sharedDataba
         do
         {
             cout << "\n-----------------------------\nEnter 0 to return the menu :";
-            if (!(cin >> isReturnToMenu) || (isReturnToMenu != 0))
-            {
-                cout << "Invalid input. Please enter 0 to return to the menu." << endl;
-                cin.clear(); // clear input buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
-            }
+            cin>>isReturnToMenu;
         } while (isReturnToMenu);
         system("CLS");
         admin_attributes_in_main_fun(admin1, sharedDatabase);
@@ -463,71 +500,13 @@ void admin_attributes_in_main_fun(Administatrator admin1, Database* sharedDataba
         do
         {
             cout << "\n-----------------------------\nEnter 0 to return the menu :";
-            if (!(cin >> isReturnToMenu) || (isReturnToMenu != 0))
-            {
-                cout << "Invalid input. Please enter 0 to return to the menu." << endl;
-                cin.clear(); // clear input buffer
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
-            }
+            cin>>isReturnToMenu;
         } while (isReturnToMenu);
         system("CLS");
         admin_attributes_in_main_fun(admin1, sharedDatabase);
         break;
     }
 
-    case 4:
-    {   double AnnualInterest = 0;
-    cout << "\n\t________________________" << endl;
-    cout << "\tPlease enter the annual interest rate :" << endl;
-    cin >> AnnualInterest;
-    cout << "\t________________________" << endl;
-
-    admin1.setAnnualSavingInterest(AnnualInterest);
-    bool isReturnToMenu = 1;
-    do
-    {
-        cout << "\n-----------------------------\nEnter 0 to return the menu :";
-        if (!(cin >> isReturnToMenu) || (isReturnToMenu != 0))
-        {
-            cout << "Invalid input. Please enter 0 to return to the menu." << endl;
-            cin.clear(); // clear input buffer
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
-        }
-    } while (isReturnToMenu);
-    system("CLS");
-    admin_attributes_in_main_fun(admin1, sharedDatabase);
-    break;
-    }
-    case 5:
-    {   double Overdraft = 0;
-    cout << "\n\t________________________" << endl;
-    cout << "\tPlease enter the overdraft charge :" << endl;
-    cin >> Overdraft;
-    cout << "\t________________________" << endl;
-
-    admin1.setOverdraft(Overdraft);
-    bool isReturnToMenu = 1;
-    do
-    {
-        cout << "\n-----------------------------\nEnter 0 to return the menu :";
-        if (!(cin >> isReturnToMenu) || (isReturnToMenu != 0))
-        {
-            cout << "Invalid input. Please enter 0 to return to the menu." << endl;
-            cin.clear(); // clear input buffer
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
-        }
-    } while (isReturnToMenu);
-    system("CLS");
-    admin_attributes_in_main_fun(admin1, sharedDatabase);
-    break;
-    }
-    default: {
-
-
-        admin_attributes_in_main_fun(admin1, sharedDatabase);
-        break;
-
-    }
     case 3:
     {
         cout << "\n\t________________________" << endl;
@@ -536,8 +515,7 @@ void admin_attributes_in_main_fun(Administatrator admin1, Database* sharedDataba
     }
     }
 }
-<<<<<<< HEAD
-void Customer_attributes_in_main_fun(Administatrator admin1,Database *sharedDatabase,string userName){
+void Customer_attributes_in_main_fun(Database *sharedDatabase,string userName){
     Customer foundCustomer=sharedDatabase->GetCustomerDatabaselist()->GetCustomer(userName);
     int selection;
     cout << "-------------------------------------------------------" << endl;
@@ -549,14 +527,53 @@ void Customer_attributes_in_main_fun(Administatrator admin1,Database *sharedData
         cout<<"Current Account"<<endl;
     }
     cout << "-------------------------------------------------------\n"<<endl;
-    
+    cout << "-------------------------------------------------------\n"<<endl;
+    //int selection;
+    cout << "-------------------------------------------------------" << endl;
+    cout << "Customer Operations" << endl;
+    cout << "-------------------------------------------------------\n"
+         << endl;
+    cout << "[ 1 ] Deposit Money" << endl;
+    cout << "[ 2 ] Withdraw Money" << endl;
+    cout << "[ 3 ] View TRansaction History" << endl;
+    cout << "-------------------------------------------------------\n"
+         << endl;
+    cout << "Enter Operation Number to proceed : ";
+    cin >> selection;
+    switch (selection)
+    {
+    case 1: // depositMoney
+    {
+        char Yes_or_No = 'y';
+        double depositAmount =0;
+        cout << "Enter the deposit Amount:";
+        cin >>depositAmount;
+        if(foundCustomer.is_Saving()==true){
+             SavingAccount *savingAccount = foundCustomer.getSavingAccount();
+            savingAccount->deposit(depositAmount);
+            savingAccount->saveTransaction("Deposit", depositAmount);
+            cout << "Deposit Successful! Current Balance: " << savingAccount->getBalance() << endl;
+            sharedDatabase->GetCustomerDatabaselist()->UpdateCustomer(userName, foundCustomer);
+            break;
+
+        
+    }
+        
+        break;
+    }
+    case 2:
+    {
+
+        break;
+    }
+    case 3:
+    {
+    }
+    }
     
 
 }
 void Employee_attributes_in_main_fun(Administatrator admin1, Database *sharedDatabase)
-=======
-void Employee_attributes_in_main_fun(Administatrator admin1, Database* sharedDatabase)
->>>>>>> afe5b51ca06bcf0130566dd85f695495f2adc869
 {
     int selection;
     cout << "-------------------------------------------------------" << endl;
@@ -597,13 +614,10 @@ void Employee_attributes_in_main_fun(Administatrator admin1, Database* sharedDat
     }
 }
 
-<<<<<<< HEAD
 void select_user_login(Administatrator admin1, Database *sharedDatabase, int role)
-=======
-void select_user_login(Administatrator admin1, Database* sharedDatabase, bool isAdmin)
->>>>>>> afe5b51ca06bcf0130566dd85f695495f2adc869
 {
     bool condition_admin, condition_employee,condition_customer;
+    string username_in;
     if (role == 1)
     {
         do
@@ -643,7 +657,8 @@ void select_user_login(Administatrator admin1, Database* sharedDatabase, bool is
         }
     }
     else if(role==2){
-        
+
+            username_in = search_customer_username(sharedDatabase);
             condition_customer = user_authentication("customer",sharedDatabase);
 
            if (!condition_customer){
@@ -654,6 +669,8 @@ void select_user_login(Administatrator admin1, Database* sharedDatabase, bool is
         if (condition_customer == true)
         {
             cout << "\n\n\tSuccessfully Logged in! Logged in as Customer  \n"<< endl;
+            Customer_attributes_in_main_fun(sharedDatabase, username_in);
+            cout<<username_in;
             //admin_attributes_in_main_fun(admin1, sharedDatabase);
         }
     }
@@ -676,7 +693,6 @@ int main()
         cout << "\t---------------------------------------------\n"
             << endl;
         cout << "Select Account Type\n--------------------------" << endl;
-<<<<<<< HEAD
         cout << "\n\t[ 0 ] Employee\n\t[ 1 ] Administrator\n\t[ 2 ] Customer\n\t[ 3 ] Shutdown\n\nEnter the choice : ";
         cin >> choice;
         // user authentication & log in
@@ -684,22 +700,6 @@ int main()
             return 0;
         }
         select_user_login(admin1, &sharedDatabase, choice);
-=======
-        cout << "\n\t[ 0 ] Administrator\n\t[ 1 ] Employee\n\nEnter the choice : ";
-
-       // cin >> choice;
-       
-        
-        while (!(cin >> choice) || (choice != 0 && choice != 1))
-        {
-            cout << "Invalid input. Please enter 0 or 1: ";
-            cin.clear(); // clear input buffer to restore cin to a usable state
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore last input
-        }
-        // user authentication & log in
-        select_user_login(admin1, &sharedDatabase, !choice);
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
->>>>>>> afe5b51ca06bcf0130566dd85f695495f2adc869
 
         system("PAUSE");
     } while (true);
