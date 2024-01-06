@@ -4,6 +4,84 @@
 #include <fstream>
 using namespace std;
 
+class SavingAccount;
+class CurrentAccount;
+class BankAccount{
+    protected:
+    double balance;
+    int accountNo;
+    double AnnualIntrest;
+
+    public:
+    BankAccount():balance(0),accountNo(0),AnnualIntrest(15){}
+
+    double getBalance(){
+        return balance;
+    }
+    double getAnnualSavingsInterest(){
+        return AnnualIntrest;
+    }
+
+    void deposit(double depositValue){
+        balance += depositValue;
+    }
+
+    void withdraw(double withdrawValue){
+        if(balance>= withdrawValue){
+            balance -= withdrawValue;
+        }
+        else cout<<" Insufficient funds"<<endl;
+    }
+
+    int getAccountNo(){
+        return accountNo;
+    }
+};
+class CurrentAccount : public BankAccount
+{
+private:
+    double Overdarft = 0;
+
+public:
+    CurrentAccount(int accountNo):BankAccount(){
+        this->accountNo=accountNo;
+    }
+    void setOverdraft(int chargeOverdraft){
+        Overdarft=chargeOverdraft;
+    }
+
+    double getOverDraft(){
+        return Overdarft;
+    }
+
+    void addOverdraftchage(){
+        this->balance += Overdarft;
+    }
+};
+class SavingAccount : public BankAccount
+{
+private:
+    double DailyinterestAmount = 0;
+
+
+
+public:
+    SavingAccount(){};
+    SavingAccount(int accountNo):BankAccount(){
+        this->accountNo=accountNo;
+    }
+    void calculateInterest()
+    {
+        DailyinterestAmount = this->balance * (getAnnualSavingsInterest() / 365);
+        this->balance = this->balance - DailyinterestAmount;
+    }
+    double getDailyInterest()
+    {
+        return DailyinterestAmount;
+    }
+};
+
+
 class Profile
 {
 public:
@@ -20,10 +98,14 @@ private:
     string username;
     string Name;
     string contract_no;
+    SavingAccount *savingAccount;
+    CurrentAccount *currentAccount;
+    bool isSaving;
+    bool isCurrent;
+
 
 public:
     Customer() {}
-    Customer(string UserName,string name, string Phone_no) : username(UserName), contract_no(Phone_no),Name(name)
     {
         cout << "\n\tCustomer created : [Username : " << UserName << " ]\n" << endl;
     }
@@ -31,7 +113,29 @@ public:
     {
         cout << username << endl;
     }
+    string getUsername(){
+        return username;
+    }
+    void createSavingAccount(int accountNo);
+    void createCurrentAccount(int accountNo);
+
+    SavingAccount *getSavingAccount(){
+        return savingAccount;
+    }
+
+    CurrentAccount *getCurrentACcount(){
+        return currentAccount;
+    }
+    bool is_Saving(){
+        return isSaving;
+    }
+    bool is_Current(){
+        return isCurrent;
+    }
+
+    
 };
+
 
 // add node to the link list
 struct Node
@@ -68,6 +172,16 @@ public:
             temp->next = node;
         }
     }
+    Customer GetCustomer(const string username){
+        Node *temp = start;
+        while (temp != nullptr){
+            if (temp->customer.getUsername() == username){
+                return temp->customer; 
+            }
+            temp = temp->next;
+        }
+    return Customer(); 
+}
 
     int getcustomerCount()
     {
@@ -133,6 +247,26 @@ public:
             string Username = "Customer0" + to_string(customer_count + 1);
             Customer newcustomer(Username,customer_name,contract_no);
             database1->GetCustomerDatabaselist()->AddCustomer(newcustomer);
+
+            //manavi
+            int accchoice;
+            cout<<"Saving [0] Account or Current [1] Account: ";
+            cin>>accchoice;
+            if(accchoice==0){
+                newcustomer.createSavingAccount(customer_count*2-1);
+                SavingAccount *SavingAccount=newcustomer.getSavingAccount();
+                SavingAccount->deposit(0);
+                SavingAccount->withdraw(0);
+                cout<<"Created Saving Account: "<<SavingAccount->getAccountNo()<<endl;
+                //database1->GetCustomerDatabaselist()->GetCustomer(Username).
+            }
+            else if(accchoice==1){
+                newcustomer.createCurrentAccount(customer_count*2);
+                CurrentAccount *CurrentAccount =newcustomer.getCurrentACcount();
+                CurrentAccount->deposit(0);
+                CurrentAccount->withdraw(0);
+                cout<<"Created Current Account: "<<CurrentAccount->getAccountNo()<<endl;
+            }
         }
     }
 };
@@ -190,52 +324,19 @@ public:
     }
 };
 // AddBank account class
-class CurrentAccount : public Administatrator
-{
-private:
-    double Balance = 0;
-    double Overdarft = 0;
-    int AccNo;
 
-public:
-    void deposit(double depositValue)
-    {
-        Balance = Balance + depositValue;
-    }
-    void withdraw(double widthrawValue)
-    {
-        Balance = Balance - widthrawValue;
-    }
-};
-class SavingAccount : public Administatrator
-{
-private:
-    double SavingsBalance = 0;
-    double DailyinterestAmount = 0;
-
-public:
-    void setSavingsBalance(double InitialSavingsAmount)
-    {
-        SavingsBalance = InitialSavingsAmount;
-    }
-
-    double getSavingsBalance()
-    {
-        return SavingsBalance;
-    }
-
-    void calculateInterest()
-    {
-        DailyinterestAmount = SavingsBalance * (getAnnualSavingsInterest() / 365);
-        SavingsBalance = SavingsBalance - DailyinterestAmount;
-    }
-    double getDailyInterest()
-    {
-        return DailyinterestAmount;
-    }
-};
 // Function definitions
-bool user_authentication(string username)
+
+void Customer::createSavingAccount(int accountNo){
+    savingAccount= new SavingAccount(accountNo);
+    isSaving=true;
+}
+void Customer::createCurrentAccount(int accountNo){
+    currentAccount=new CurrentAccount(accountNo);
+    isCurrent=true;
+}
+
+bool user_authentication(string username,Database *sharedDatabase)
 {
     // clear variables values
     string username_in;
@@ -250,6 +351,8 @@ bool user_authentication(string username)
         cout << "Admin Login" << endl;
     else if (username == "employee")
         cout << "Employee Login" << endl;
+    else if (username == "customer")
+        cout<<"Customer Login"<<endl;
     cout << "----------------------------------------------------------------\n"
          << endl;
 
@@ -272,6 +375,19 @@ bool user_authentication(string username)
         }
     }
     bool condition = (username_in == username && password_in == "Password@1234");
+    if(username_in!="admin" || username_in!="employee"){
+        bool isInDatabase=false;
+        Customer foundCustomer=sharedDatabase->GetCustomerDatabaselist()->GetCustomer(username_in);
+        if(foundCustomer.getUsername()!=""){
+            isInDatabase=true;
+            condition = ( password_in == "Password@1234");
+        }
+        else{
+            cout<<"\nUsername: "<<username_in<<" cannot found"<<endl;
+            //condition=false;
+        }
+    }
+    
     return condition;
 }
 void admin_attributes_in_main_fun(Administatrator admin1, Database *sharedDatabase)
@@ -335,6 +451,22 @@ void admin_attributes_in_main_fun(Administatrator admin1, Database *sharedDataba
     }
     }
 }
+void Customer_attributes_in_main_fun(Administatrator admin1,Database *sharedDatabase,string userName){
+    Customer foundCustomer=sharedDatabase->GetCustomerDatabaselist()->GetCustomer(userName);
+    int selection;
+    cout << "-------------------------------------------------------" << endl;
+    cout<<"Welcome "<<foundCustomer.getUsername()<<endl;
+    if(foundCustomer.is_Saving()!=false){
+        cout<<"Saving Account"<<endl;
+    }
+    if(foundCustomer.is_Current()!=false){
+        cout<<"Current Account"<<endl;
+    }
+    cout << "-------------------------------------------------------\n"<<endl;
+    
+    
+
+}
 void Employee_attributes_in_main_fun(Administatrator admin1, Database *sharedDatabase)
 {
     int selection;
@@ -376,14 +508,14 @@ void Employee_attributes_in_main_fun(Administatrator admin1, Database *sharedDat
     }
 }
 
-void select_user_login(Administatrator admin1, Database *sharedDatabase, bool isAdmin)
+void select_user_login(Administatrator admin1, Database *sharedDatabase, int role)
 {
-    bool condition_admin, condition_employee;
-    if (isAdmin == true)
+    bool condition_admin, condition_employee,condition_customer;
+    if (role == 1)
     {
         do
         {
-            condition_admin = user_authentication("admin");
+            condition_admin = user_authentication("admin",sharedDatabase);
 
             if (!condition_admin)
                 cout << "Incorrect username or password! Try again\n"
@@ -398,11 +530,11 @@ void select_user_login(Administatrator admin1, Database *sharedDatabase, bool is
             admin_attributes_in_main_fun(admin1, sharedDatabase);
         }
     }
-    else
+    else if(role==0)
     {
         do
         {
-            condition_employee = user_authentication("employee");
+            condition_employee = user_authentication("employee",sharedDatabase);
 
             if (!condition_employee)
                 cout << "Incorrect username or password! Try again\n"
@@ -417,6 +549,21 @@ void select_user_login(Administatrator admin1, Database *sharedDatabase, bool is
             Employee_attributes_in_main_fun(admin1, sharedDatabase);
         }
     }
+    else if(role==2){
+        
+            condition_customer = user_authentication("customer",sharedDatabase);
+
+           if (!condition_customer){
+                cout << "Incorrect username or password! Try again\n"<< endl;
+           }
+
+        // if admin credential is verified
+        if (condition_customer == true)
+        {
+            cout << "\n\n\tSuccessfully Logged in! Logged in as Customer  \n"<< endl;
+            //admin_attributes_in_main_fun(admin1, sharedDatabase);
+        }
+    }
 }
 int main()
 {
@@ -425,8 +572,8 @@ int main()
     admin1.create_employee(&sharedDatabase); // initially there is an employee
     SavingAccount BankSavingsAccout;
     // bool condition_admin, condition_employee;
-    BankSavingsAccout.setSavingsBalance(100000);
-    bool choice;
+    BankSavingsAccout.deposit(100000);
+    int choice;
     bool continueRunning = true;
 
     do
@@ -436,10 +583,13 @@ int main()
         cout << "\t---------------------------------------------\n"
              << endl;
         cout << "Select Account Type\n--------------------------" << endl;
-        cout << "\n\t[ 0 ] Administrator\n\t[ 1 ] Employee\n\nEnter the choice : ";
+        cout << "\n\t[ 0 ] Employee\n\t[ 1 ] Administrator\n\t[ 2 ] Customer\n\t[ 3 ] Shutdown\n\nEnter the choice : ";
         cin >> choice;
         // user authentication & log in
-        select_user_login(admin1, &sharedDatabase, !choice);
+        if(choice==3){
+            return 0;
+        }
+        select_user_login(admin1, &sharedDatabase, choice);
 
         system("PAUSE");
     } while (true);
